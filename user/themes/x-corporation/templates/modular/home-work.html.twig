@@ -1,0 +1,18 @@
+<section class="home-work">
+    <img class="work-bg" src="{{ page.media.images[header.background].url }}">
+    <div class="work-container">
+        <div class="title-content">
+            <span class="title-indicator"></span>
+            <p class="title">{{ page.header.headtitle|raw }}</p>
+            <span class="title-indicator"></span>
+        </div>
+        <p class="description">{{ page.header.description|raw }}</p>
+        <p class="subdescription">{{ page.header.subdescription|raw }}</p>
+        <div class="work-img-container">
+            {% for work in page.header.works %}
+                <img class="work-item-bg" src="{{ page.media.images[work.image].url }}">
+            {% endfor %}
+        </div>
+        <a class="btn-view" href="{{ base_url_relative }}/portfolio/lists">VIEW MORE</a>
+    </div>
+</section>

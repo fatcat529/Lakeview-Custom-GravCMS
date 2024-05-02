@@ -1,0 +1,167 @@
+<section class="portfolio-list">
+    <div class="title-content">
+        <p class="title">{{ page.header.headtitle|raw }}</p>
+    </div>
+    <div class="portfolio-types-content">
+        {% for type in page.header.portfolio_types %}
+            <p class="portfolio-type" onclick="onClickPortfolioType(this)">{{ type }}</p>
+        {% endfor %}
+    </div>
+    <div class="portfolio-list-content">
+        {% for portfolio in page.header.portfolios %}
+            {% set images_array = [] %}
+            {% for image in portfolio.images %}
+                {% set images_array = images_array|merge([page.media.images[image].url]) %}
+            {% endfor %}
+            {% set images_query_param = images_array|join(',') %}
+            {% set urlParams = {
+                'name': portfolio.name,
+                'comment': portfolio.comment,
+                'description': portfolio.description,
+                'architect': portfolio.architect,
+                'interior': portfolio.interior,
+                'photography': portfolio.photography,
+                'awards': portfolio.awards,
+                'images': images_query_param
+            } %}
+            <a class="portfolio-item" data-types="{{ portfolio.type }}" href="{{ base_url_relative }}/portfolio/items?{{ urlParams|http_build_query }}">
+                <div>
+                    <div class="thumb-content">
+                        <img class="thumb" src="{{ page.media.images[portfolio.thumb].url }}">
+                    </div>
+                    <div class="portfolio-name">
+                        <p>{{ portfolio.name }}</p>
+                    </div>
+                    <div class="portfolio-comment">
+                        <p>{{ portfolio.comment }}</p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <div class="pagination-container">
+        <ul id="pagination" class="pagination"></ul>
+    </div>
+</section>
+
+<script>
+    var portfolioTypes;
+    var portfolioItems;
+    var activeType;
+    var pageSize;
+    var currentPage = 1;
+    var totalPage;
+
+    document.addEventListener("DOMContentLoaded", function() {
+        portfolioTypes = document.querySelectorAll('.portfolio-type');
+        portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        activeType = portfolioTypes[0];
+
+        var windowWidth = window.innerWidth;
+        if(windowWidth > 768) {
+            pageSize = 9;
+        } else {
+            pageSize = 10;
+        }
+
+        displayPage(currentPage);
+    });
+
+    function onClickPortfolioType(clickedType) {
+        activeType = clickedType;
+        portfolioTypes.forEach(function(portfolioType) {
+            if (portfolioType === clickedType) {
+                portfolioType.style.color = "#235A61";
+                portfolioType.style.textDecoration = "underline"
+            } else {
+                portfolioType.style.color = "#4E4E4E";
+                portfolioType.style.textDecoration = "none"
+            }
+        });
+
+        currentPage = 1;
+        displayPage(currentPage);
+    }
+
+    function displayPage(pageNumber) {
+        filterItemsByType(activeType.textContent);
+
+        var count = 0;
+        var startIndex = (pageNumber - 1) * pageSize;
+        var endIndex = Math.min(startIndex + pageSize, portfolioItems.length);
+
+        portfolioItems.forEach(function(item, index) {
+            if(item.style.display != 'none') {
+                if(count < startIndex || count >= endIndex) {
+                    item.style.display = 'none';
+                }
+                count ++;
+            }
+        });
+
+        renderPagination();
+    }
+
+    function renderPagination() {
+        var paginationList = document.getElementById("pagination");
+        paginationList.innerHTML = "";
+
+        // Previous button
+        var prevButton = document.createElement("li");
+        prevButton.innerHTML = "<a href='#'>&laquo;</a>";
+        prevButton.addEventListener("click", function() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayPage(currentPage);
+                renderPagination();
+            }
+        });
+        paginationList.appendChild(prevButton);
+
+        for (var i = 1; i <= totalPage; i++) {
+            var li = document.createElement("li");
+            var link = document.createElement("a");
+            link.href = "#";
+            link.textContent = i;
+            link.addEventListener("click", function() {
+                currentPage = parseInt(this.textContent);
+                displayPage(currentPage);
+                renderPagination();
+            });
+            if (i === currentPage) {
+                li.classList.add("active");
+            }
+            li.appendChild(link);
+            paginationList.appendChild(li);
+        }
+
+        // Next button
+        var nextButton = document.createElement("li");
+        nextButton.innerHTML = "<a href='#'>&raquo;</a>";
+        nextButton.addEventListener("click", function() {
+            if (currentPage < totalPage) {
+                currentPage ++;
+                displayPage(currentPage);
+                renderPagination();
+            }
+        });
+        paginationList.appendChild(nextButton);
+    }
+
+    function filterItemsByType(type) {
+        var count = 0;
+
+        portfolioItems.forEach(function(item) {
+            var itemTypes = item.dataset.types.split(',');
+            if (itemTypes.includes(type) || type === "All") {
+                item.style.display = 'block';
+                count ++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        totalPage = Math.ceil(count / pageSize);
+    }
+</script>

@@ -1,0 +1,39 @@
+<section class="about-faq" >
+    <div class="title-content">
+        <span class="title-indicator"></span>
+        <h1 class="title">{{ page.header.headtitle|raw }}</h1>
+        <span class="title-indicator"></span>
+    </div>
+    <p class="description">{{ page.header.description|raw }}</p>
+    <div class="faq-container" style="background-image: url('{{ page.media.images[header.background].url }}');">
+        <div class="faq-content">
+            {% for faq in page.header.faqs %}
+                <div id="faq-content-item-{{ loop.index }}" class="faq-content-item">
+                    <div class="question-content">
+                        <p class="question">{{ faq.question }}</p>
+                        <span class="btn-collapse" onclick="onClickBtnCollapse(this, {{ loop.index }})">+</span>
+                    </div>
+                    <div class="answer-content">
+                        <p class="answer">{{ faq.answer }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    function onClickBtnCollapse(element, index) {
+        var faqItem = document.getElementById(`faq-content-item-${index}`);
+        var answer = faqItem.querySelector('.answer-content');
+        if(element.textContent == '+') {
+            element.textContent = '-';
+            faqItem.style.border = '1px solid #235A61';
+            answer.style.display = 'block';
+        } else {
+            element.textContent = '+';
+            faqItem.style.border = 'none';
+            answer.style.display = 'none';
+        }
+    }
+</script>

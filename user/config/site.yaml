@@ -1,0 +1,37 @@
+title: Grav
+author:
+  name: Joe Bloggs
+  email: 'joe@example.com'
+metadata:
+  description: 'Grav is an easy to use, yet powerful, open source flat-file CMS'
+
+logo:
+  dark: 'logo_dark.png'
+  light: 'logo_light.png'
+
+favicon: 'favicon.png'
+
+contact:
+  address: "6025 Thumb Lake Rd. BOYNE FALLS, MI 49713"
+  mail: "PO BOX 44 BOYNE FALLS, MI 49713"
+  phone: "(231) 881-4802"
+
+socials:
+  facebook: https://www.facebook.com/
+  instagram: https://www.instagram.com/
+
+brands:
+ - brand_1.png
+ - brand_2.png
+ - brand_3.png
+
+header_options:
+  arrows: 'true'                            # Create Next and previous button
+  autoslide: 'false'                        # Auto slideshow mode
+  autoslideHoverStop: 'false'               # Pause auto slideshow mode on mouseover
+  interval: '2000'                          # The interval between each slide (Interval in millisecond)
+  loop: 'false'                             # Infinite slideshow             
+  transition : zoom                         # Set the animation kind (fade/slide/page/zoom)
+  itemsForSlide: '0'                        # Wrap each 'n' item
+  touch: 'true'                             # Set a native slide for touch device
+  swipe : 'true'                            # Enable swipe for touch device

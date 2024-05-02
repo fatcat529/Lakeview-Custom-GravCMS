@@ -1,0 +1,46 @@
+<footer class="footer">
+    <div class="logo">
+        {% if logo_light != '' %}
+            <a href="{{ base_url == '' ? '/' : base_url }}">
+                <img src="{{ url('theme://img/' ~ logo_light) }}" alt="">
+            </a>
+        {% endif %}
+    </div>
+    <div class="footer-container">
+        <div class="footer-content">
+            <div class="contact">
+                <div class="address">
+                    <p>ADDRESS</p>
+                    <p>{{ config.site.contact.address }}</p>
+                </div>
+                <div class="mail">
+                    <p>MAILING</p>
+                    <p>{{ config.site.contact.mail }}</p>
+                </div>
+                <div class="social">
+                    <a href="{{ base_url == '' ? '/' : base_url }}">
+                        <span><i class="fa fa-facebook-square"></i></span>
+                    </a>
+                    <a href="{{ base_url == '' ? '/' : base_url }}">
+                        <span><i class="fa fa-instagram"></i></span>
+                    </a>
+                </div>
+            </div>
+            <div class="menu">
+                {% for p in pages.children.visible %}
+                    <ul class="{{ current_page }}">
+                        <a href="{{ p.url }}">{{ p.menu }}</a>
+                    </ul>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="brands">
+            {% for brand in config.site.brands %}
+                <img src="{{ url('theme://img/brands/' ~ brand) }}" alt="">
+            {% endfor %}
+        </div>
+    </div>
+    <div class="copyright">
+        <p>Copyright &copy; {{ "now"|date("Y") }} - All Rights Reserved Lakeview Custom Homes | Designed & Developed by StoneArch</p>
+    </div>
+</footer>

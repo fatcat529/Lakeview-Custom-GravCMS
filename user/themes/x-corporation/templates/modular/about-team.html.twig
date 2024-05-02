@@ -1,0 +1,22 @@
+<section class="about-team" style="background-image: url('{{ page.media.images[header.background].url }}');">
+    <div class="team-content">
+        <div class="title-content">
+            <span class="title-indicator"></span>
+            <h1 class="subtitle">{{ page.header.headsubtitle|raw }}</h1>
+            <span class="title-indicator"></span>
+        </div>
+        <div class="team-desc">
+            <p class="title">{{ page.header.headtitle|raw }}</p>
+            <p class="description">{{ page.header.description|raw }}</p>
+        </div>
+    </div>
+    <div class="member-container">
+        {% for member in page.header.members %}
+            <div class="member-content">
+                <img class="member-avatar" src="{{ page.media.images[member.avatar].url }}">
+                <p class="member-name">{{ member.name }}</p>
+                <p class="member-role">{{ member.role }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
